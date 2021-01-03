@@ -43,16 +43,12 @@
   },
   "homepage": "https://github.com/Jaid/stoppuhr",
   "keywords": [
-    "add",
-    "class",
-    "count",
-    "counter",
-    "library",
-    "node",
-    "node-js",
-    "numbers",
-    "object",
-    "util",
+    "time",
+    "ms",
+    "date",
+    "performance",
+    "tracker",
+    "tracking",
     "utility"
   ]
 }

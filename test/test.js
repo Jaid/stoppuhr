@@ -11,5 +11,6 @@ const {default: Stoppuhr} = indexModule
 it("should run", async () => {
   const stoppuhr = new Stoppuhr
   await delay(3000)
-  expect(stoppuhr.total()).toBe(3000)
+  expect(stoppuhr.total()).toBeGreaterThanOrEqual(3000)
+  expect(stoppuhr.total()).toBeLessThan(4000)
 })
