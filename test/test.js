@@ -1,4 +1,4 @@
-import {last, toPairs} from "lodash"
+import delay from "delay"
 import path from "path"
 
 const indexModule = require(process.env.MAIN ? path.resolve(process.env.MAIN) : path.join(__dirname, "..", "src"))
@@ -8,17 +8,8 @@ const indexModule = require(process.env.MAIN ? path.resolve(process.env.MAIN) : 
    */
 const {default: Stoppuhr} = indexModule
 
-it("should run", () => {
-  const counter = new Stoppuhr
-  expect(counter).toBeInstanceOf(Stoppuhr)
-  expect(counter.size()).toBe(0)
-  counter.feed("peach")
-  counter.feed("peach", 4)
-  expect(counter.size()).toBe(1)
-  expect(counter.get("peach")).toBe(5)
-  counter.feed(["lemon", "banana"], 2)
-  expect(counter.size()).toBe(3)
-  expect(counter.get("lemon")).toBe(2)
-  expect(counter.sum()).toBe(9)
-  expect(counter.toObjectSortedByValues() |> toPairs |> last).toStrictEqual(["peach", 5])
+it("should run", async () => {
+  const stoppuhr = new Stoppuhr
+  await delay(3000)
+  expect(stoppuhr.total()).toBe(3000)
 })

@@ -1,7 +1,6 @@
 /** @module stoppuhr */
 
-import {fromPairs, isArrayLike, isString, sortBy} from "lodash"
-import sortKeys from "sort-keys"
+import readableMs from "readable-ms"
 
 /**
  * @example
@@ -14,114 +13,48 @@ export default class {
 
   /**
    * @constructor
-   * @param {string[]|Object<string, number>} [initialValues]
    */
-  constructor(initialValues) {
-    this.map = {}
-    if (initialValues) {
-      this.feed(initialValues)
-    }
+  constructor() {
+    const now = Date.now()
+    this.startTime = now
+    this.lapStartTime = now
   }
 
   /**
-   * @param {Object<string, number>} counterMap
+   * @return {number}
    */
-  feedWithMap(counterMap) {
-    for (const [key, incrementValue] of Object.entries(counterMap)) {
-      this.feed(key, incrementValue)
-    }
+  lap() {
+    const now = Date.now()
+    const passedMs = now - this.lapStartTime
+    this.lapStartTime = now
+    return passedMs
   }
 
   /**
-   * @param {string[]} stringArray
-   * @param {number} [incrementValue=1]
+   * @return {string}
    */
-  feedWithArray(stringArray, incrementValue) {
-    for (const key of stringArray) {
-      this.feed(key, incrementValue)
-    }
+  lapText() {
+    const passedMs = this.lap()
+    const passedMsText = readableMs(passedMs)
+    return passedMsText
   }
 
   /**
-   * @param {string} key
-   * @param {number} [incrementValue=1]
+   * @return {number}
    */
-  feedWithKey(key, incrementValue = 1) {
-    if (!this.map.hasOwnProperty(key)) {
-      this.map[key] = incrementValue
-    } else {
-      this.map[key] += incrementValue
-    }
+  total() {
+    const now = Date.now()
+    const passedMs = now - this.startTime
+    return passedMs
   }
 
   /**
-   * @param {string|string[]|Object<string, number>} value
-   * @param {number} [incrementValue=1]
+   * @return {string}
    */
-  feed(value, incrementValue = 1) {
-    if (isString(value)) {
-      this.feedWithKey(value, incrementValue)
-    } else if (isArrayLike(value)) {
-      this.feedWithArray(value, incrementValue)
-    } else {
-      this.feedWithMap(value)
-    }
-  }
-
-  /**
-   * @param {string} key
-   * @returns {null|number}
-   */
-  get(key) {
-    return this.map[key] || null
-  }
-
-  /**
-   * @returns {number} Number of different keys
-   */
-  size() {
-    return this.keys().length
-  }
-
-  /**
-   * @returns {string[]} All different keys
-   */
-  keys() {
-    return Object.keys(this.map)
-  }
-
-  values() {
-    return Object.values(this.map)
-  }
-
-  /**
-   * @returns {number} Sum of all counts
-   */
-  sum() {
-    return Object.values(this.map).reduce((sum, value) => {
-      return sum + value
-    }, 0)
-  }
-
-  /**
-   * @returns {Object<string, number>}
-   */
-  toObject() {
-    return {...this.map}
-  }
-
-  /**
-   * @returns {Object<string, number>}
-   */
-  toObjectSortedByKeys() {
-    return sortKeys(this.map)
-  }
-
-  /**
-   * @returns {Object<string, number>}
-   */
-  toObjectSortedByValues() {
-    return fromPairs(sortBy(Object.entries(this.map), [entry => entry[1], entry => entry[0]]))
+  totalText() {
+    const passedMs = this.total()
+    const passedMsText = readableMs(passedMs)
+    return passedMsText
   }
 
 }
