@@ -5,9 +5,9 @@ import readableMs from "readable-ms"
 /**
  * @example
  * import Stoppuhr from "stoppuhr"
- * const counter = new Stoppuhr
- * counter.feed("bananas")
- * counter.get("bananas") === 1
+ * const stoppuhr = new Stoppuhr
+ * someHeavyWork()
+ * const passedMs = stoppuhr.total()
  */
 export default class {
 
