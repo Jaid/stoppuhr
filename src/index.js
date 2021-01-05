@@ -15,6 +15,13 @@ export default class {
    * @constructor
    */
   constructor() {
+    this.reset()
+  }
+
+  /**
+   * @return {void}
+   */
+  reset() {
     const now = Date.now()
     this.startTime = now
     this.lapStartTime = now
